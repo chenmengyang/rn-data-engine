@@ -25,7 +25,6 @@ export default class Login extends Component {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
       .then()
       .catch(err => {
-        // Alert.alert(JSON.stringify(err));
         this.setState((prevState) => ({
           errorMsg: err.message,
         }))
