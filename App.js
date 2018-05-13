@@ -2,9 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Login from './Components/Login';
 import Engine from './Components/Engine';
+import { createStackNavigator, StackNavigator, } from "react-navigation";
 import firebase from "firebase";
 
-export default class App extends React.Component {
+class App extends React.Component {
 
   constructor(props) {
     super(props);
@@ -34,16 +35,20 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.state.user ? (
-          <View style={styles.main}>
-            <Text>Hello, {this.state.user}</Text>
-            <Engine />
-          </View>
-        ) : <Login />}
+        <Login navigate={this.props.navigation.navigate}/>
       </View>
     );
   }
 }
+
+export default createStackNavigator({
+  Home: {
+    screen: App
+  },
+  Engine: {
+    screen: Engine
+  }
+});
 
 const styles = StyleSheet.create({
   container: {

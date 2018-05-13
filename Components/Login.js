@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, TextInput, Button, Alert, } from 'react-native'
+import { Text, StyleSheet, View, TextInput, Button, Alert, KeyboardAvoidingView, } from 'react-native'
 import firebase from "firebase";
 
 export default class Login extends Component {
+
+  static navigationOptions = {
+    title: 'App',
+  };
 
   constructor(props) {
     super(props);
@@ -23,33 +27,35 @@ export default class Login extends Component {
 
   login() {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then()
-      .catch(err => {
-        this.setState((prevState) => ({
-          errorMsg: err.message,
-        }))
-      })
+    .then(() => {
+      this.props.navigate('Engine');
+    })
+    .catch(err => {
+      this.setState((prevState) => ({
+        errorMsg: err.message,
+      }))
+    })
   }
 
   render() {
     return (
-      <View style={styles.login}>
+      <KeyboardAvoidingView style={styles.login} behavior="padding" enabled>
         <TextInput
+          underlineColorAndroid = 'transparent'
           style={styles.input}
           placeholder="Type your email address"
           onChangeText={(text)=>this.handleInputChange(text, 'email')}
         />
         <TextInput
+        underlineColorAndroid = 'transparent'
           secureTextEntry
           style={styles.input}
           placeholder="Password"
           onChangeText={(text)=>this.handleInputChange(text, 'password')}
         />
-        {/* <Text>{this.state.email}</Text>
-        <Text>{this.state.password}</Text> */}
         <Button onPress={this.login} title="Sign in"/>
         <Text style={styles.errorMsg}>{this.state.errorMsg}</Text>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }
@@ -60,7 +66,12 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    width: 200
+    width: 200,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    marginBottom: 5,
+    paddingLeft: 5
   },
   errorMsg: {
     marginTop: 10,

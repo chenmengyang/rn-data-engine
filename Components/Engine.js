@@ -22,7 +22,9 @@ export default class Engine extends Component {
   }
 
   logout() {
-    firebase.auth().signOut();
+    firebase.auth().signOut().then(() => {
+        this.props.navigation.navigate('Home');
+    });
   }
 
   emit() {
